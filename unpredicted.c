@@ -7,23 +7,23 @@
 void BM_branch_not_predicted(benchmark::State& state) {
     srand(1);
     const unsigned int N = state.range(0);
-    std::vector<unsigned long> v1(N), v2(N);
-    std::vector<int> c1(N);
+
+    int *in1 = (int *)malloc(N * sizeof(int));
+    int *in2 = (int *)malloc(N * sizeof(int));
+    int *cond = (int *)malloc(N * sizeof(int));
     for (size_t i = 0; i < N; ++i) {
-        v1[i] = 3;
-        v2[i] = 3;
-        c1[i] = rand() & 0x1;
+        in1[i] = 3;
+        in2[i] = 3;
+        cond[i] = rand() & 0x1; // random
     }
-    unsigned long* p1 = v1.data();
-    unsigned long* p2 = v2.data();
-    int* b1 = c1.data();
+
     for (auto _ : state) {
         unsigned long a1 = 0, a2 = 0;
         for (size_t i = 0; i < N; ++i) {
-            if (b1[i]) {
-                a1 += p1[i];
+            if (cond[i]) {
+                a1 += in1[i];
             } else {
-                a1 *= p2[i];
+                a1 += in2[i];
             }
         }
         benchmark::DoNotOptimize(a1);
