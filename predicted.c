@@ -10,8 +10,8 @@ void BM_branch_predicted(benchmark::State& state) {
     std::vector<unsigned long> v1(N), v2(N);
     std::vector<int> c1(N);
     for (size_t i = 0; i < N; ++i) {
-        v1[i] = rand();
-        v2[i] = rand();
+        v1[i] = 3;
+        v2[i] = 3;
         c1[i] = rand() >= 0; // rand always returns value >0, so it'w always true
     }
     unsigned long* p1 = v1.data();
